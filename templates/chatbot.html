@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>FinanFit AI 상담</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    background: #f7faf9;
+
+    font-family:
+        Arial,
+        "Noto Sans KR",
+        sans-serif;
+}
+
+header {
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 35px;
+
+    background: white;
+
+    border-bottom:
+        1px solid #e7eeeb;
+}
+
+.logo {
+    width: 140px;
+}
+
+.chat {
+    width:
+        min(950px, 94%);
+
+    height:
+        calc(100vh - 110px);
+
+    margin: 20px auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 12px 50px
+        rgba(0, 60, 50, 0.10);
+}
+
+.chat-header {
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 12px 20px;
+
+    border-bottom:
+        1px solid #edf1ef;
+}
+
+.bot-img {
+    width: 48px;
+    height: 48px;
+
+    margin-right: 12px;
+
+    border-radius: 50%;
+}
+
+.bot-name {
+    font-size: 16px;
+
+    font-weight: 800;
+}
+
+.status {
+    color: #00856a;
+
+    font-size: 12px;
+
+    margin-top: 3px;
+}
+
+.messages {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 28px;
+
+    background: #fafcfb;
+}
+
+.row {
+    display: flex;
+
+    margin-bottom: 20px;
+}
+
+.row.user {
+    justify-content: flex-end;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+
+    margin-right: 10px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+}
+
+.bubble {
+    max-width: 72%;
+
+    padding:
+        14px 17px;
+
+    border-radius: 17px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+}
+
+.row.bot .bubble {
+    background: white;
+
+    border:
+        1px solid #e4ebe8;
+
+    border-top-left-radius: 5px;
+}
+
+.row.user .bubble {
+    background: #00856a;
+
+    color: white;
+
+    border-top-right-radius: 5px;
+}
+
+.bottom {
+    padding: 15px 18px;
+
+    background: white;
+
+    border-top:
+        1px solid #edf1ef;
+}
+
+.quick {
+    display: flex;
+
+    gap: 7px;
+
+    overflow-x: auto;
+
+    margin-bottom: 10px;
+}
+
+.quick button {
+    white-space: nowrap;
+
+    padding:
+        8px 12px;
+
+    border-radius: 20px;
+
+    border:
+        1px solid #dce9e4;
+
+    background: #f7fbf9;
+
+    color: #00664f;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+.input {
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        6px 7px 6px 15px;
+
+    border:
+        1px solid #dbe5e1;
+
+    border-radius: 17px;
+}
+
+textarea {
+    flex: 1;
+
+    height: 45px;
+
+    padding: 10px 0;
+
+    border: 0;
+
+    resize: none;
+
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 14px;
+}
+
+.send {
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+
+    border-radius: 12px;
+
+    background: #00856a;
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.typing {
+    color: #888;
+}
+
+@media(max-width:600px) {
+
+    header {
+        padding: 0 18px;
+    }
+
+    .chat {
+        width: 100%;
+        height: calc(100vh - 70px);
+
+        margin: 0;
+
+        border-radius: 0;
+    }
+
+    .bubble {
+        max-width: 85%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <a href="/main">
+
+        <img
+            src="/static/logo.png"
+            class="logo"
+            alt="FinanFit"
+        >
+
+    </a>
+
+</header>
+
+
+<div class="chat">
+
+
+<div class="chat-header">
+
+    <img
+        src="/static/chatbot.png"
+        class="bot-img"
+        alt="FinanFit AI"
+    >
+
+    <div>
+
+        <div class="bot-name">
+            FinanFit AI
+        </div>
+
+        <div class="status">
+            ● 금융상품 상담 가능
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    class="messages"
+    id="messages"
+>
+
+
+<div class="row bot">
+
+    <img
+        src="/static/chatbot.png"
+        class="avatar"
+        alt=""
+    >
+
+    <div class="bubble">
+
+안녕하세요,
+{{ user["name"] }}님! 👋
+
+저는 FinanFit AI입니다.
+
+현재 {{ user["investment_type"] }} 투자성향과
+{{ user["age"] }}세의 연령,
+직업 및 소득정보를 바탕으로
+금융상품을 상담해드릴 수 있어요.
+
+궁금한 내용을 편하게 물어보세요!
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<div class="bottom">
+
+
+<div class="quick">
+
+    <button
+        onclick="quickAsk('저에게 추천상품을 알려줘')"
+    >
+        추천상품 알려줘
+    </button>
+
+    <button
+        onclick="quickAsk('예금과 적금의 차이가 뭐야?')"
+    >
+        예금 vs 적금
+    </button>
+
+    <button
+        onclick="quickAsk('저에게 어떤 상품이 잘 맞아?')"
+    >
+        어떤 상품이 잘 맞아?
+    </button>
+
+</div>
+
+
+<div class="input">
+
+    <textarea
+        id="input"
+        placeholder="금융상품에 대해 궁금한 점을 입력하세요."
+        onkeydown="handleKey(event)"
+    ></textarea>
+
+
+    <button
+        class="send"
+        onclick="sendMessage()"
+    >
+        ↑
+    </button>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+const messages =
+    document.getElementById(
+        "messages"
+    );
+
+const input =
+    document.getElementById(
+        "input"
+    );
+
+
+function addMessage(
+    text,
+    isUser
+) {
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+    row.className =
+        "row " +
+        (
+            isUser
+            ? "user"
+            : "bot"
+        );
+
+
+    if (!isUser) {
+
+        const avatar =
+            document.createElement(
+                "img"
+            );
+
+        avatar.src =
+            "/static/chatbot.png";
+
+        avatar.className =
+            "avatar";
+
+        row.appendChild(
+            avatar
+        );
+    }
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+    bubble.className =
+        "bubble";
+
+    bubble.textContent =
+        text;
+
+    row.appendChild(
+        bubble
+    );
+
+    messages.appendChild(
+        row
+    );
+
+    messages.scrollTop =
+        messages.scrollHeight;
+}
+
+
+function showTyping() {
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+    row.id = "typing";
+
+    row.className =
+        "row bot";
+
+
+    const avatar =
+        document.createElement(
+            "img"
+        );
+
+    avatar.src =
+        "/static/chatbot.png";
+
+    avatar.className =
+        "avatar";
+
+    row.appendChild(
+        avatar
+    );
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+    bubble.className =
+        "bubble typing";
+
+    bubble.textContent =
+        "답변을 작성하고 있어요...";
+
+    row.appendChild(
+        bubble
+    );
+
+    messages.appendChild(
+        row
+    );
+
+    messages.scrollTop =
+        messages.scrollHeight;
+}
+
+
+function removeTyping() {
+
+    const typing =
+        document.getElementById(
+            "typing"
+        );
+
+    if (typing) {
+        typing.remove();
+    }
+}
+
+
+async function sendMessage() {
+
+    const message =
+        input.value.trim();
+
+    if (!message) {
+        return;
+    }
+
+
+    addMessage(
+        message,
+        true
+    );
+
+    input.value = "";
+
+    showTyping();
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/chat",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        message:
+                            message
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+        removeTyping();
+
+
+        addMessage(
+            data.answer ||
+            "답변을 가져오지 못했습니다.",
+            false
+        );
+
+
+    } catch (error) {
+
+        removeTyping();
+
+        addMessage(
+            "서버 연결에 실패했습니다.",
+            false
+        );
+    }
+}
+
+
+function quickAsk(
+    text
+) {
+
+    input.value = text;
+
+    sendMessage();
+}
+
+
+function handleKey(
+    event
+) {
+
+    if (
+        event.key === "Enter"
+        && !event.shiftKey
+    ) {
+
+        event.preventDefault();
+
+        sendMessage();
+    }
+}
+
+</script>
+
+
+</body>
+</html>

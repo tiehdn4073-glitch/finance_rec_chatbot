@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>FinanFit</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    background: #f6faf8;
+
+    color: #202b28;
+
+    font-family:
+        Arial,
+        "Noto Sans KR",
+        sans-serif;
+}
+
+header {
+    height: 76px;
+
+    background: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 55px;
+
+    border-bottom:
+        1px solid #edf1ef;
+}
+
+.logo {
+    width: 145px;
+}
+
+.menu {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.welcome {
+    font-size: 14px;
+}
+
+.welcome strong {
+    color: #00856a;
+}
+
+.logout {
+    color: #777;
+
+    font-size: 13px;
+
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1180px;
+
+    margin: auto;
+
+    padding:
+        45px 25px 100px;
+}
+
+.hero {
+    padding: 40px;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #e7f7f1,
+            #f4fbf9 55%,
+            #eaf7ff
+        );
+
+    margin-bottom: 40px;
+}
+
+.hero-small {
+    color: #00856a;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    margin-bottom: 8px;
+}
+
+.hero h1 {
+    margin: 0;
+
+    font-size: 31px;
+
+    line-height: 1.4;
+}
+
+.hero h1 span {
+    color: #00856a;
+}
+
+.hero p {
+    color: #69736f;
+
+    margin-top: 12px;
+}
+
+.tags {
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}
+
+.tag {
+    padding:
+        8px 13px;
+
+    border-radius: 20px;
+
+    background: white;
+
+    color: #00664f;
+
+    font-size: 12px;
+
+    border:
+        1px solid #d8eee6;
+}
+
+.title-row {
+    display: flex;
+
+    align-items: end;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.title-row h2 {
+    margin: 0;
+
+    font-size: 23px;
+}
+
+.title-row span {
+    color: #89938f;
+
+    font-size: 13px;
+}
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.card {
+    padding: 25px;
+
+    background: white;
+
+    border:
+        1px solid #e8eeeb;
+
+    border-radius: 20px;
+
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 80, 60, 0.09);
+}
+
+.number {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #e8f7f1;
+
+    color: #00856a;
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+.type {
+    color: #00856a;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-top: 18px;
+}
+
+.name {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    line-height: 1.4;
+
+    margin-top: 7px;
+
+    min-height: 56px;
+}
+
+.company {
+    color: #888;
+
+    font-size: 13px;
+
+    margin-top: 8px;
+}
+
+.rate-box {
+    margin-top: 25px;
+
+    padding-top: 18px;
+
+    border-top:
+        1px solid #edf0ee;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+.rate {
+    color: #00856a;
+
+    font-size: 23px;
+
+    font-weight: 800;
+
+    margin-left: 5px;
+}
+
+.empty {
+    grid-column: 1 / 4;
+
+    padding: 60px;
+
+    text-align: center;
+
+    background: white;
+
+    border-radius: 20px;
+
+    color: #777;
+}
+
+.chatbot {
+    position: fixed;
+
+    right: 30px;
+    bottom: 28px;
+
+    width: 78px;
+    height: 78px;
+
+    padding: 4px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0, 70, 60, 0.22);
+
+    transition: 0.2s;
+}
+
+.chatbot:hover {
+    transform: scale(1.07);
+}
+
+.chatbot img {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+@media(max-width:800px) {
+
+    header {
+        padding: 0 20px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .empty {
+        grid-column: 1;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <a href="/main">
+
+        <img
+            src="/static/logo.png"
+            class="logo"
+            alt="FinanFit"
+        >
+
+    </a>
+
+
+    <div class="menu">
+
+        <div class="welcome">
+
+            <strong>
+                {{ user["name"] }}
+            </strong>님
+
+        </div>
+
+        <a
+            class="logout"
+            href="/logout"
+        >
+            로그아웃
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<section class="hero">
+
+    <div class="hero-small">
+        FINANFIT PERSONAL FINANCE
+    </div>
+
+
+    <h1>
+
+        <span>
+            {{ user["name"] }}
+        </span>님에게
+
+        맞는 금융상품을 찾았어요.
+
+    </h1>
+
+
+    <p>
+        나이, 투자성향, 직업, 소득을 바탕으로
+        상품을 추천해드려요.
+    </p>
+
+
+    <div class="tags">
+
+        <div class="tag">
+            {{ user["age"] }}세
+        </div>
+
+        <div class="tag">
+            {{ user["investment_type"] }}
+        </div>
+
+        <div class="tag">
+            {{ user["job"] }}
+        </div>
+
+        <div class="tag">
+            연소득 {{ "{:,}".format(user["income"]) }}만원
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="title-row">
+
+    <h2>
+        {{ user["name"] }}님을 위한 추천상품
+    </h2>
+
+    <span>
+        개인 금융정보 기반 추천
+    </span>
+
+</div>
+
+
+<section class="cards">
+
+
+{% if recommendations %}
+
+
+    {% for product in recommendations %}
+
+    <article class="card">
+
+
+        <div class="number">
+            {{ loop.index }}
+        </div>
+
+
+        <div class="type">
+            {{ product["type"] }}
+        </div>
+
+
+        <div class="name">
+            {{ product["name"] }}
+        </div>
+
+
+        <div class="company">
+            {{ product["company"] }}
+        </div>
+
+
+        <div class="rate-box">
+
+            금리
+
+            <span class="rate">
+                {{ product["rate"] }}
+            </span>
+
+        </div>
+
+
+    </article>
+
+    {% endfor %}
+
+
+{% else %}
+
+
+    <div class="empty">
+
+        <h3>
+            금융상품 데이터가 없습니다.
+        </h3>
+
+        <p>
+            static/예금목록.csv 파일을 확인해주세요.
+        </p>
+
+    </div>
+
+
+{% endif %}
+
+
+</section>
+
+
+</main>
+
+
+<a
+    href="/chatbot"
+    class="chatbot"
+>
+
+    <img
+        src="/static/chatbot.png"
+        alt="금융상품 상담"
+    >
+
+</a>
+
+
+</body>
+</html>
